@@ -3,8 +3,6 @@ const path = require("path");
 const fs = require("fs");
 // Helper method for generating unique ids
 const uuid = require("./node_modules/uuid");
-const getAndRenderNotes = require("./public/js/index.js");
-
 
 const PORT = 3001;
 
@@ -30,6 +28,7 @@ app.get("/api/notes", (req, res) => {
 
 // POST request to add a note
 app.post("/api/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "./develop/public/assets/notes.html"));
   // Log that a POST request was received
   console.info(`${req.method} request received to add a note`);
 
@@ -64,7 +63,6 @@ app.post("/api/notes", (req, res) => {
             writeErr
               ? console.error(writeErr)
               : console.info("Successfully updated notes!")
-              getAndRenderNotes();
         );
       }
     });

@@ -6,5 +6,9 @@
     {
         "title": "this is a note",
         "text": "this is the body"
+    },
+    {
+        "title": "notetitle",
+        "text": "newbody"
     }
 ]

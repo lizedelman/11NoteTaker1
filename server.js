@@ -3,21 +3,22 @@ const path = require("path");
 const fs = require("fs");
 // Helper method for generating unique ids
 const uuid = require("./node_modules/uuid");
-
 const PORT = 3001;
-
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static("public"));
+const apiroutes = require("./routes/apiroutes");
+const htmlroutes = require("./routes/htmlroutes");
+
+app.use("/api", apiroutes);
+app.use("/", htmlroutes);
 
 app.get("/", (req, res) =>
-  res.sendFile(path.join(__dirname, "./develop/public/index.html"))
+  res.sendFile(path.join(__dirname, "./public/notes.html"))
 );
 
-// GET request for notes
+// GET request for notes (api routes)
 app.get("/api/notes", (req, res) => {
   // Send a message to the client
   res.status(200).json(`${req.method} request received to get notes`);
@@ -28,7 +29,7 @@ app.get("/api/notes", (req, res) => {
 
 // POST request to add a note
 app.post("/api/notes", (req, res) => {
-  res.sendFile(path.join(__dirname, "./develop/public/assets/notes.html"));
+  res.sendFile(path.join(__dirname, "./public/assets/notes.html"));
   // Log that a POST request was received
   console.info(`${req.method} request received to add a note`);
 
@@ -45,7 +46,7 @@ app.post("/api/notes", (req, res) => {
     };
 
     // Obtain existing notes
-    fs.readFile("./develop/db/db.json", "utf8", (err, data) => {
+    fs.readFile("./db/db.json", "utf8", (err, data) => {
       if (err) {
         console.error(err);
       } else {
@@ -57,7 +58,7 @@ app.post("/api/notes", (req, res) => {
 
         // Write updated notes back to the file
         fs.writeFile(
-          "./develop/db/db.json",
+          "./db/db.json",
           JSON.stringify(parsedNotes, null, 4),
           (writeErr) =>
             writeErr

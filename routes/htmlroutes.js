@@ -10,4 +10,9 @@ router.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
+router.delete("/notes/:id", (req, res) => {
+  let notes = JSON.parse(fs.readFileSync("./db/db.json"));
+  res.json(notes);
+});
+
 module.exports = router;

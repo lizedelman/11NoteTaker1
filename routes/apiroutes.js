@@ -19,4 +19,9 @@ router.post("/notes", (req, res) => {
   res.json(notes);
 });
 
+router.delete("/notes/:id", (req, res) => {
+  let notes = JSON.parse(fs.readFileSync("./db/db.json"));
+  res.json(notes);
+});
+
 module.exports = router;
